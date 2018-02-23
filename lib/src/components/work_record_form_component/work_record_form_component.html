@@ -1,0 +1,49 @@
+
+<form *ngIf="model != null" #workRecordForm="ngForm" [ngFormModel]="form">
+    <div class="row">
+        <div class="col">
+            <fo-select
+                    label="Select user"
+                    [options]="userService.data.values"
+                    [(selectedId)]="strUserId">
+            </fo-select>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <fo-select
+                    label="Select project"
+                    [options]="projectService.data.values"
+                    [(selectedId)]="strProjectId">
+            </fo-select>
+        </div>
+    </div>
+    <div class="row margin-top-medium">
+        <div class="m6 col">
+            <fo-date-input
+                    label="Date*"
+                    [(ngModel)]="model.date">
+            </fo-date-input>
+        </div>
+        <div class="m6 col">
+            <fo-number-input
+                    label="Hours*"
+                    [min]=0.0
+                    [step]=0.5
+                    [(ngModel)]="model.hours">
+            </fo-number-input>
+        </div>
+    </div>
+    <div class="row margin-top-medium">
+        <div class="col">
+            <material-input
+                    rows="5"
+                    multiline
+                    floatingLabel label="Description*"
+                    [(ngModel)]="model.description"
+                    ngControl="description"
+                    max="256">
+            </material-input>
+        </div>
+    </div>
+</form>

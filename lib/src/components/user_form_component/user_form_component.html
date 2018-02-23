@@ -1,0 +1,43 @@
+
+<form *ngIf="model != null" #userForm="ngForm" [ngFormModel]="form">
+    <div class="row margin-top-medium">
+        <div class="m6 col">
+            <material-input
+                    floatingLabel label="Firstname*"
+                    [(ngModel)]="model.firstname"
+                    ngControl="firstname"
+                    max="126">
+            </material-input>
+        </div>
+        <div class="m6 col">
+            <material-input
+                    floatingLabel label="Lastname*"
+                    [(ngModel)]="model.lastname"
+                    ngControl="lastname"
+                    max="126">
+            </material-input>
+        </div>
+    </div>
+    <div class="row">
+        <div class="m6 col">
+            <material-input
+                    type="email"
+                    floatingLabel
+                    label="Email*"
+                    [(ngModel)]="model.email"
+                    ngControl="email"
+                    max="126">
+            </material-input>
+        </div>
+        <div class="m6 col">
+            <material-input
+                    type="password"
+                    floatingLabel
+                    label="Password*"
+                    [(ngModel)]="password"
+                    ngControl="password"
+                    max="126">
+            </material-input>
+        </div>
+    </div>
+</form>

@@ -1,0 +1,176 @@
+
+<fo-login
+        title="Log in"
+        [client]="loginClient"
+        (login) = "onLogin($event)"
+        recoverPasswordMessageEmail="Your reset token is: %token%"
+        recoverPasswordFromEmail="support@timesheet.minoch.com"
+        recoverPasswordMessageSMS="Your reset token is: %token%"
+        recoverPasswordFromSMS="Timesheet">
+</fo-login>
+<div *ngIf="loggedIn">
+    <!-- WorkRecord modal -->
+    <fo-modal
+            [title]="modalTitle"
+            [visible]="selectedWorkRecord != null"
+            [showCloseButton]="false">
+        <div class="row">
+            <div class="col">
+                <work-record-form #form [model]="selectedWorkRecord"></work-record-form>
+            </div>
+        </div>
+        <div footer>
+            <div class="row">
+                <div class="col text-right">
+                    <material-button
+                            raised
+                            (trigger)="selectedWorkRecord = null">
+                        Cancel
+                    </material-button>
+                    <material-button
+                            *ngIf="form.form != null && form.model != null"
+                            [disabled]="!form.form.valid"
+                            raised
+                            (trigger)="onSaveWorkRecord(form.model)">
+                        Save
+                    </material-button>
+                </div>
+            </div>
+        </div>
+    </fo-modal>
+    <!-- Project modal -->
+    <fo-modal
+            [title]="modalTitleProject"
+            [visible]="selectedProject != null"
+            [showCloseButton]="false">
+        <div class="row">
+            <div class="col">
+                <project-form #projectForm [model]="selectedProject"></project-form>
+            </div>
+        </div>
+        <div footer>
+            <div class="row">
+                <div class="col text-right">
+                    <material-button
+                            raised
+                            (trigger)="selectedProject = null">
+                        Cancel
+                    </material-button>
+                    <material-button
+                            *ngIf="projectForm.form != null && projectForm.model != null"
+                            [disabled]="!projectForm.form.valid"
+                            raised
+                            (trigger)="onSaveProject(projectForm.model)">
+                        Save
+                    </material-button>
+                </div>
+            </div>
+        </div>
+    </fo-modal>
+    <!-- User modal -->
+    <fo-modal
+            [title]="modalTitleUser"
+            [visible]="selectedUser != null"
+            [showCloseButton]="false">
+        <div class="row">
+            <div class="col">
+                <user-form #userForm [model]="selectedUser"></user-form>
+            </div>
+        </div>
+        <div footer>
+            <div class="row">
+                <div class="col text-right">
+                    <material-button
+                            raised
+                            (trigger)="selectedUser = null">
+                        Cancel
+                    </material-button>
+                    <material-button
+                            *ngIf="userForm.form != null && userForm.model != null"
+                            [disabled]="!userForm.form.valid"
+                            raised
+                            (trigger)="onSaveUser(userForm.model)">
+                        Save
+                    </material-button>
+                </div>
+            </div>
+        </div>
+    </fo-modal>
+    <h3>Timesheet</h3>
+    <div class="row">
+        <div class="col">
+            <material-tab-panel>
+                <material-tab label="Work records">
+                    <div class="row">
+                        <div class="col">
+                            <div class="row">
+                                <div class="col">
+                                    <fo-data-table
+                                            *ngIf="projectsLoaded && usersLoaded"
+                                            [disabled]="workRecordService.loading"
+                                            [data]="workRecordService.data"
+                                            [columns]="['hours', 'description']"
+                                            [evaluatedColumns]="evaluatedColumns"
+                                            [rows]="50"
+                                            (rowclick)="selectedWorkRecord = workRecordService.data[$event];"
+                                            [showDeleteButtons]="true"
+                                            [showAddButton]="true"
+                                            [showSearch]="true"
+                                            (add)="onAddWorkRecord()"
+                                            (delete)="workRecordService.httpDELETE($event)">
+                                    </fo-data-table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </material-tab>
+                <material-tab label="Projects">
+                    <div class="row">
+                        <div class="col">
+                            <div class="row">
+                                <div class="col">
+                                    <fo-data-table
+                                            [disabled]="projectService.loading"
+                                            [data]="projectService.data"
+                                            [columns]="['name', 'description']"
+                                            [rows]="50"
+                                            (rowclick)="selectedProject = projectService.data[$event];"
+                                            [showDeleteButtons]="true"
+                                            [showAddButton]="true"
+                                            [showSearch]="true"
+                                            (add)="onAddProject()"
+                                            (delete)="projectService.httpDELETE($event)">
+                                    </fo-data-table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </material-tab>
+                <material-tab label="Users">
+                    <div class="row">
+                        <div class="col">
+                            <div class="row">
+                                <div class="col">
+                                    <fo-data-table
+                                            [disabled]="userService.loading"
+                                            [data]="userService.data"
+                                            [columns]="['firstname', 'lastname', 'email']"
+                                            [rows]="50"
+                                            (rowclick)="selectedUser = userService.data[$event]"
+                                            [showDeleteButtons]="true"
+                                            [showAddButton]="true"
+                                            [showSearch]="true"
+                                            (add)="onAddUser()"
+                                            (delete)="onDeleteUser($event)">
+                                    </fo-data-table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </material-tab>
+            </material-tab-panel>
+        </div>
+    </div>
+</div>
+
+

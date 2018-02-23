@@ -1,0 +1,23 @@
+<form *ngIf="model != null" #projectForm="ngForm" [ngFormModel]="form">
+    <div class="row">
+        <div class="col">
+            <material-input
+                    floatingLabel label = "Name*"
+                    [(ngModel)]="model.name"
+                    ngControl="name">
+            </material-input>
+        </div>
+    </div>
+    <div class="row margin-top-medium">
+        <div class="col">
+            <material-input
+                    rows="5"
+                    multiline
+                    floatingLabel label="Description*"
+                    [(ngModel)]="model.description"
+                    ngControl="description"
+                    max="256">
+            </material-input>
+        </div>
+    </div>
+</form>
